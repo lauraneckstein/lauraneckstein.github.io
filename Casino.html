@@ -5,8 +5,8 @@
 <title> American Indian and Alaskan Native Casinos by Laura Newman Eckstein. Dedicated to Laurie Allen, Librarian, Haverford College, November 16, 2014
 </title>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
-<link rel="stylesheet" href="css/MarkerCluster.css" />
+<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.markercluster/dist/MarkerCluster.css" />
 <link rel="stylesheet" href="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.css" />
 <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/leaflet.fullscreen.css" />
 
@@ -27,13 +27,12 @@
 <body>
 	<div id="map" class="map"></div>
 
-	<script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet-src.js"></script>
-	<script src="js/leaflet-providers.js"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
 	//Data from the National Indian Gaming Comission
 	<script src="js/casino.js"></script>
 	//Data from 2013 US Census TIGER Shapefiles of American Indian and Alaskan Native lands
 	<script src="js/ainh.js"></script>
-	<script src="js/leaflet.markercluster-src.js"></script>
+	<script src="http://leaflet.github.io/Leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
 	<script src="http://k4r573n.github.io/leaflet-control-osm-geocoder/Control.OSMGeocoder.js"></script>
 	<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v0.0.3/Leaflet.fullscreen.min.js"></script>
 	
@@ -46,11 +45,13 @@
 
 	});
 
-//Thanks to the amazing code from leaflet-providers, and  mapbox!
-var watercolor =  L.tileLayer.provider('Stamen.Watercolor').addTo(map);
-var lines = L.tileLayer.provider('Stamen.TonerLines').addTo(map);
-var labels = L.tileLayer.provider('Stamen.TonerLabels').addTo(map);
-var osmGeocoder = new L.Control.OSMGeocoder()
+var watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+  attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+}).addTo(map);
+var lines = L.tileLayer('http://{s}.tile.stamen.com/toner-lines/{z}/{x}/{y}.jpg', { attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.'
+}).addTo(map);
+var labels = L.tileLayer('http://{s}.tile.stamen.com/toner-labels/{z}/{x}/{y}.jpg').addTo(map);
+var osmGeocoder = new L.Control.OSMGeocoder();
 map.addControl(osmGeocoder);
 
 
@@ -59,7 +60,7 @@ map.addControl(osmGeocoder);
 
 var mapping = L.layerGroup([watercolor, lines, labels])
 
-//Thanks to more amazing code from Marker Cluster
+//Thanks to amazing code from Marker Cluster
 var markers = L.markerClusterGroup({showCoverageOnHover: false});
 		var geoJsonLayer = L.geoJson(casino, {
 			onEachFeature: function (feature, layer) {
@@ -78,7 +79,7 @@ var markers = L.markerClusterGroup({showCoverageOnHover: false});
 
 		}).addTo(map);
 
-		var baseMaps = { "Base Map": watercolor
+		var baseMaps = { 
 
 
 		};
