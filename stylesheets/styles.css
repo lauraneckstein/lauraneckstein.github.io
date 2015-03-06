@@ -94,14 +94,14 @@ th {
 img {
   max-width:100%;
   display: block;
-  margin-left: auto;
-  margin-right: auto }
+    margin-left: auto;
+    margin-right: auto 
 }
 
 header {
   width:270px;
-  float:center;
-  position:fixed;
+  float:left;
+  position: static;
 }
 
 header ul {
@@ -126,7 +126,7 @@ header ul {
 
 header li {
   width:89px;
-  float:center;
+  float:none;
   border-right:1px solid #d2d2d2;
   height:40px;
 }
@@ -136,7 +136,7 @@ header ul a {
   font-size:11px;
   color:#999;
   display:block;
-  text-align:center;
+  text-align: left;
   padding-top:6px;
   height:40px;
 }
