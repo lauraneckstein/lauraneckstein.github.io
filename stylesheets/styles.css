@@ -93,11 +93,14 @@ th {
 
 img {
   max-width:100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto }
 }
 
 header {
   width:270px;
-  float:left;
+  float:center;
   position:fixed;
 }
 
@@ -123,7 +126,7 @@ header ul {
 
 header li {
   width:89px;
-  float:left;
+  float:center;
   border-right:1px solid #d2d2d2;
   height:40px;
 }
