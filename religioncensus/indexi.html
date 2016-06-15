@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html>
-	
+
 <head>
 	
 	<meta charset="utf-8">
-	<title>The Top Six Religious Affiliations by State and D.C. per Capita in 1906 from the 1906 Census of Religious Bodies (Excluding Alaska and Hawaii)</title>
+	<title>The Top Six Religious Affiliations per Capita in each State/Territory in 1906</title>
 
 	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<script src="https://d3js.org/topojson.v1.min.js"></script>
+	<script src="https://rawgit.com/Caged/d3-tip/master/index.js"></script>
+
 	<link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700|Merriweather|Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 
 <style type="text/css">
 	
 	h1 {
-font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
+		font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
 		}
+		
 	h3, h4 {
 		font-family: 'Open Sans Condensed', sans-serif;
 		text-align: center;
 		}
+	
 	svg.legend {
 		position: fixed;
 		right: 0;
+		bottom: 0;
 	    outline: 2px solid black;
 	    outline-offset: 5px;
 	    margin: 0 auto;
-	    
 		}
-			
-	svg {
-		margin: 0 auto;
-		position: static;	}
+	
 	text {
 		font-family: 'Oswald', sans-serif;
 		font-size: 0.9em;
+		}
+		
+	.d3-tip {
+		line-height: 1;
+		font-weight: bold;
+		font-family: 'Oswald', sans-serif;
+		padding: 12px;
+		background: rgba(0, 0, 0, 0.8);
+		color: #fff;
+		border-radius: 2px;
+		pointer-events: none;
+		}
+		
+/* Creates a small triangle extender for the tooltip */
+	.d3-tip:after {
+		box-sizing: border-box;
+		display: inline;
+		font-size: 10px;
+		width: 100%;
+		line-height: 1;
+		color: rgba(0, 0, 0, 0.8);
+		position: absolute;
+		pointer-events: none;
+		}
+/* Southward tooltips */
+	.d3-tip.s:after {
+		content: "\25B2";
+		margin: 0 0 1px 0;
+		top: -8px;
+		left: 0;
+		text-align: center;
 		}
 		
 </style>
@@ -41,26 +72,26 @@ font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
 </head>
 
 <body>
-	<div id=header>	<h1> The Top Six Religious Affiliations per Capita in each State/Territory in 1906</h1>
+	<div id= header>	<h1> The Top Six Religious Affiliations per Capita in each State/Territory in 1906</h1>
 	<h3>By <a href="https://lauraneckstein.com">Laura N. Eckstein Mapping</a></h3>
 	<h4>From pages <a href="https://www2.census.gov/prod2/decennial/documents/00190438p1ch1.pdf">55-57 of <em>Religious Bodies: 1906</em></a></h4><br></div>
 
-	<div class=legend></div>
 	
-	<div id=svg></div>
 
 <script type="text/javascript">
-
-	var m = 10
-    r = 100
-    z = color
+	/* Thanks to for the tooltips http://plnkr.co/edit/ts44B1mYegcde90gbMRr?p=preview  */
+	/* Inspiration from http://bl.ocks.org/mbostock/3888852 */
+	
+	var margin = 30
+		radius = 100
+	
 	var color = d3.scale.ordinal()
 	    .range(["#312F2F", "#E26762","#ECAA38", "#117899", "#0D3C55", "#5CA793", "#A2B86C", "#E2171A", "#BCCCE0", "#BF98A0", "#A6D9F7", "#6b486b"]);
 	// thanks to https://www.viget.com/articles/add-colors-to-your-palette-with-color-mixing 
 
 	var arc = d3.svg.arc()
-	    .outerRadius(r)
-	    .innerRadius(r - 30);
+	    .outerRadius(radius)
+	    .innerRadius(radius - 30);
 
 	var pie = d3.layout.pie()
 	    .sort(null)
@@ -77,10 +108,44 @@ font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
 	    });
 	  });
 
-	var legend = d3.select("body").append("svg")
+
+  //Add SVG Canvas 
+	var svg = d3.select("body").selectAll("svg")
+		.data(data)
+		.enter().append("svg")
+		.attr("width", (radius + margin) * 2)
+		.attr("height", (radius + margin) * 2)
+		.append("g")
+		.attr("transform", "translate(" + (radius + margin) + "," + (radius + margin) + ")");
+    
+     var tip = d3.tip()
+	    .attr('class', 'd3-tip')
+	    .html(function(d) { return d.data.population + "%" + " " + d.data.name; })
+	    .direction('s')
+		svg.call(tip);
+
+	  svg.selectAll(".arc")
+      .data(function(d) { return pie(d.religion); })
+	  .enter().append("path")
+      .attr("class", "arc")
+      .attr("d", arc)
+      .style("fill", function(d) { return color(d.data.name); })
+            .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
+      
+      
+
+	svg.append("text")
+      .attr("dy", ".35em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.State; })
+      .onclick;
+
+
+var legend = d3.select("body").append("svg")
       .attr("class", "legend")
-      .attr("width", r * 2)
-      .attr("height", r * 4)
+      .attr("width", radius * 2)
+      .attr("height", radius * 3)
 	  .selectAll("g")
 	  .data(color.domain().slice().reverse())
 	  .enter().append("g")
@@ -90,7 +155,8 @@ font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
       .attr("width", 18)
       .attr("height", 18)
       .style("fill", color);
-   
+ 
+ 
 
 	legend.append("text")
       .attr("x", 24)
@@ -98,33 +164,11 @@ font-family: 'Open Sans Condensed', sans-serif;		text-align: center;
       .attr("dy", ".35em")
       .text(function(d) { return d; });
       
-    //Add SVG Canvas 
-	var svg = d3.select("body").selectAll("svg")
-    .data(data)
-  .enter().append("svg")
-    .attr("width", (r + m) * 2)
-    .attr("height", (r + m) * 2)
-  .append("g")
-    .attr("transform", "translate(" + (r + m) + "," + (r + m) + ")");
-
-	  svg.selectAll(".arc")
-      .data(function(d) { return pie(d.religion); })
-	  .enter().append("path")
-      .attr("class", "arc")
-      .attr("d", arc)
-      .style("fill", function(d) { return color(d.data.name); });
-      
-      
-
-	svg.append("text")
-      .attr("dy", ".35em")
-      .style("text-anchor", "middle")
-      .text(function(d) { return d.State; });
-
+  
 });
 
 </script>
-    
+	
 </body>
 
 </html>
