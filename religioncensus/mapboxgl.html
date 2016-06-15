@@ -117,17 +117,12 @@ p {
 
 <div id="map"></div>
 
-<div id="q_button">
-  <a href='#' id='q2' class="active"><strong>Stations</strong> (Spring 2015)</a>
-  <a href='#' id='q4'><strong>Stations</strong> (Autumn 2015)</a>
-  <a href="#" id="choropleth"><strong>Neighborhoods</strong> (adjusted <br> for number of stations)</a>
-</div>
 
 <div class="map-overlay" id="title">
-  <h2>Choropleth maps of the 1906 Census of Religion <br> Percent Religion per Capita</h2>
+  <h2>Choropleth map of the 1906 Census of Religion <br> Percent religious denomination per Capita in each state/territory</h2>
   <div id="nhood"></div>
   <div id="divvy_stats">
-    <p><em>Click on a state or denomination <br> for more information.</em></p>
+    <p><em>Click on a state or denomination for more information.</em></p>
   </div>
 </div>
 
@@ -140,12 +135,12 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGVja3N0ZWkiLCJhIjoiQ2ZkZmNvbyJ9.daUcLXvrU6V1
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/leckstei/cip7u7flr0024bbm0ywhd6o7b',
-    zoom: 3.74,
-    center: [-86.97722138410576, 37.517379300798098]
+    zoom: 3,
+    center: [-87.97722138410576, 37.517379300798098]
 });
 
 
-var choropleth_layers = ["0", "0-20", "20-40", "40-60", "60-80", "80+"];
+
 
 map.on('load', function () {
 	
@@ -205,133 +200,11 @@ map.on('load', function () {
 		            },
 	            'fill-opacity': 1
 }
-   });
-  map.addLayer({
-        'id': 'lds',
-        'type': 'fill',
-        'source': 'religion',
-        'source-layer': 'religion',
-		'filter': ["<=", "lds", 100],
-
-        'paint': {
-            
-       	        'fill-outline-color': "#000000",
-	            'fill-color': {
-		           		            
-		            property: 'baptists',
-		            stops: [
-			            [0.01, '#ffffff'],
-			         
-			            [100, '#045a8d']
-		            ]
-		            
-		            },
-	            'fill-opacity': 1
-}
-});   
-map.on('click', function (e) {
-    var features_q2 = map.queryRenderedFeatures(e.point, {layer: "episcopalian"});
-    var visibility_q2 = map.getLayoutProperty('episcopal', 'visibility');
-    
-    var features_q4 = map.queryRenderedFeatures(e.point, {layer: "baptist"});
-    var visibility_q4 = map.getLayoutProperty('bapitists', 'visibility');
-    
-    var visibility_choropleth = map.getLayoutProperty('lds', 'visibility');
-    var features_choropleth = map.queryRenderedFeatures(e.point, {layers: choropleth_layers});
-    
-    var comm_area = map.queryRenderedFeatures(e.point, {layer: "lds"});
-    
-   	if (visibility_q2 === 'visible' && features_q2[0].properties["episcopal"]) {
-    
-      var popup = new mapboxgl.Popup()
-      	.setLngLat(features_q2[0].geometry.coordinates)
-      	.setHTML("<h2><strong>" + comm_area[0].properties["state"] + "</strong>" + " (#" + comm_area[0].properties["state"] + ")</h2><p><strong>" + features_q2[0].properties["episcopalian"] + "</strong> rides in Spring 2015.</p>")
-      	.addTo(map);
-      
-    } else if (visibility_q4 === 'visible' && features_q4[0].properties["baptists"]) {
-
-      var popup = new mapboxgl.Popup()
-      	.setLngLat(features_q4[0].geometry.coordinates)
-      	.setHTML("<h2><strong>" + comm_area[0].properties["Community District"] + "</strong>" + " (#" + comm_area[0].properties["Divvy Station"] + ")</h2><p><strong>" + features_q4[0].properties["Rides (2015 Q4)"] + "</strong> rides in Autumn 2015.</p>")
-      	.addTo(map);
-      
-    } else if (visibility_choropleth === 'visible' && features_choropleth[0]) {
-  
-      var popup_choropleth = new mapboxgl.Popup()
-      	.setLngLat(features_choropleth[0].geometry.coordinates[0][0])
-      	.setHTML("<h2><strong>" +  features_choropleth[0].properties["lds"].capitalize() + "</h2><p><strong>" + features_choropleth[0].properties["2015 Q4 (per station)"] + "</strong> rides per Divvy station <br> in Autumn 2015.</p>")
-      	.addTo(map);
-    
-    } else {
-    
-    	document.getElementById('nhood').innerHTML = "";
-    	document.getElementById('divvy_stats').innerHTML = "<p><em>Click on a station or neighborhood <br> for more information.</em></p>" 
-      
-    }
-}); 
-
-// hover styles for data
+});
+});
 
 
-switchToQ2();
-switchToQ4();
-switchToChoropleth();
 
-function switchToQ2() {
-		var link = document.getElementById('q2');
-
-    link.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();   
-        document.getElementById('q4').className = 'inactive';
-        document.getElementById('choropleth').className = 'inactive';
-        
-        map.setLayoutProperty('episcopal', 'visibility', 'visible');
-        map.setLayoutProperty('baptists', 'visibility', 'none');
-        choropleth_layers.forEach(function(layer) {
-        		map.setLayoutProperty('lds', 'visibility', 'none');
-        });
-        this.className = 'active';
-    };
-};
-
-function switchToQ4() {
-		var link = document.getElementById('q4');
-
-    link.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();   
-        document.getElementById('q2').className = 'inactive';
-        document.getElementById('choropleth').className = 'inactive';
-        
-        map.setLayoutProperty('episcopal', 'visibility', 'visible');
-        map.setLayoutProperty('lds', 'visibility', 'none');
-        choropleth_layers.forEach(function(layer) {
-        		map.setLayoutProperty(layer, 'visibility', 'none');
-        });
-        this.className = 'active';
-    };
-};
-
-function switchToChoropleth() {
-		var link = document.getElementById('choropleth');
-    
-    link.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        document.getElementById('q2').className = 'inactive';
-        document.getElementById('q4').className = 'inactive';
-        
-        map.setLayoutProperty('episcopal', 'visibility', 'none');
-        map.setLayoutProperty('baptists', 'visibility', 'none');
-        this.className = 'active';
-        
-        choropleth_layers.forEach(function(layer) {
-        		map.setLayoutProperty(layer, 'visibility', 'visible');
-        });
-    };
-}
 
    
 </script>
