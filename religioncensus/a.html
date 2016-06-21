@@ -1,0 +1,225 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title></title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.1/mapbox-gl.css' rel='stylesheet' />
+<style>
+body { margin:0; padding:0; }
+body * {
+-webkit-touch-callout:none;
+  -webkit-user-select:none;
+   -khtml-user-select:none;
+     -moz-user-select:none;
+      -ms-user-select:none;
+          user-select:none;
+  }
+.map { position:absolute; top:0; bottom:0; width:100%; }
+.legend {
+  font-family:'Helvetica Neue', Arial, Helvetica, sans-serif;
+  box-shadow:0 1px 2px rgba(0,0,0,0.10);
+  }
+</style>
+</head>
+<body class='unlimiter'>
+<div id='map' class='map'></div>
+
+<div class='pin-bottom pad1x space-bottom4 z1 col12 sidebar'>
+  <div class='fill-dark round dark col4 margin4'>
+    <nav id='menu-ui' class='radio-pill pill col12 clearfix'>
+      <input type='radio' name='choropleth' id='baptists' checked=true>
+      <label for='baptists' class='col6 button quiet icon check'>Population</label>
+      <input type='radio' name='choropleth' id='median-income'>
+      <label for='median-income' class='col6 button quiet icon check'>Median income</label>
+    </nav>
+  </div>
+</div>
+
+<div class='pin-bottomright pad1x space-bottom4 z1'>
+  <div id='legend' class='legend fill-white round pad1'></div>
+</div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibGVja3N0ZWkiLCJhIjoiQ2ZkZmNvbyJ9.daUcLXvrU6V1ABY4kZoT5g';
+
+var popup;
+var choropleth = 'baptists' // Checked radio selection
+var map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/leckstei/cip7u7flr0024bbm0ywhd6o7b',
+  center: [-98, 38.88],
+  minZoom: 3,
+  zoom: 3.75
+});
+
+map.addControl(new mapboxgl.Navigation());
+
+var choropleths = {};
+choropleths.baptists = {
+  title: 'baptists',
+   state: [
+    [80, '#723122'],
+    [70, '#8B4225'],
+    [60, '#A25626'],
+    [50, '#B86B25'],
+    [40, '#CA8323'],
+    [30, '#DA9C20'],
+    [20, '#E6B71E'],
+    [10, '#EED322'],
+    [0, '#F2F12D']
+  ]
+};
+
+choropleths.baptists.layers = choropleths.baptists.state;
+
+choropleths['median-income'] = {
+  title: 'Income',
+  suffix: '% Baptists',
+  layers: [
+    [125000, '#723122'],
+    [100000, '#8B4225'],
+    [80000, '#A25626'],
+    [60000, '#B86B25'],
+    [40000, '#CA8323'],
+    [30000, '#DA9C20'],
+    [20000, '#E6B71E'],
+    [10000, '#EED322'],
+    [0, '#F2F12D']
+  ]
+};
+
+function setChoropleth() {
+  choropleths[choropleth].layers.forEach(function(layer, i) {
+    map.setPaintProperty('baptists' + i, 'fill-color', layer[1]);
+
+    if (i === 0) {
+      map.setFilter('baptists' + i, [ '>=', choropleth, layer[0] ]);
+          } else {
+      map.setFilter('baptists' + i, [
+        'all',
+        ['>=', choropleth, layer[0]],
+        ['<', choropleth, choropleths[choropleth].layers[i - 1][0]]
+      ]);
+
+    }
+  });
+  buildLegend();
+}
+
+function buildLegend() {
+  var $legend = document.getElementById('legend');
+  $legend.innerHTML = '';
+
+  var title = document.createElement('h4');
+  title.textContent = choropleth.title;
+
+  var list = document.createElement('div');
+  list.className = '';
+
+  choropleths[choropleth].layers.forEach(function(layer) {
+    var item = document.createElement('div');
+    item.className = 'small';
+    var key = document.createElement('span');
+    key.className = 'inline dot pad0 space-right0';
+    key.style.backgroundColor = layer[1];
+    var label = document.createElement('span');
+    var n = layer[0];
+    label.textContent = (choropleths[choropleth].suffix) ?
+      choropleths[choropleth].suffix + n.toLocaleString() :
+      n.toLocaleString();
+
+    item.appendChild(key);
+    item.appendChild(label);
+    list.appendChild(item);
+  });
+
+  $legend.appendChild(title);
+  $legend.appendChild(list);
+}
+
+function initialize() {
+  map.addSource('religion', {
+    "type": "vector",
+    "url": "mapbox://leckstei.42kwxeyp"
+  });
+
+
+  choropleths[choropleth].layers.forEach(function (layer, i) {
+
+    map.addLayer({
+      "id": "baptists" + i,
+      "interactive": true,
+      "type": "fill",
+      "source": "religion",
+      "source-layer": "religion",
+      'filter': ["<=", "baptists", 100],
+
+      "layout": {
+        "visibility": "none",
+      },
+      "paint": {
+        "fill-opacity": 0.75,
+      }
+    
+    });
+   
+  });
+
+  setChoropleth(choropleth);
+}
+
+map.on('mousemove', function(e) {
+  map.featuresAt(e.point, {
+    includeGeometry: true,
+    layer: choropleths[choropleth].layers.reduce(function(memo, layer, i) {
+      memo.push('baptists' + i);
+      return memo;
+    }, [])
+  }, function(err, features) {
+    if (map.getContainer().querySelector('#popup')) popup.remove();
+    if (err || !features.length) return;
+
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = (!err && features.length) ? 'pointer' : '';
+
+    var feature = features[0];
+    var popupContainer = document.createElement('div');
+    popupContainer.id = 'popup';
+    popupContainer.className = 'pad1';
+
+    var n = feature.properties[choropleth];
+    var name = (feature.properties.religion) ?
+      feature.properties.state : feature.properties.state;
+
+    popupContainer.innerHTML = (choropleths[choropleth].suffix) ?
+      name + ' <strong>' + n.toLocaleString() + choropleths[choropleth].suffix + '</strong>' :
+      name + ' <strong>' + n.toLocaleString() + '</strong>';
+
+    popup = new mapboxgl.Popup({
+      closeOnClick: false,
+      closeButton: false
+    }).setLngLat(e.lngLat)
+      .setHTML(popupContainer.outerHTML)
+      .addTo(map);
+  });
+});
+
+document.getElementById('menu-ui').addEventListener('change', function(e) {
+  choropleth = e.target.id;
+  setChoropleth(choropleth);
+});
+
+
+
+map.on('style.load', initialize);
+</script>
+</body>
+</html>
+LICENSE#
+
+This block appears to have no license. Please contact the author to request a license.
