@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Bitter:400,700,400italic' rel='stylesheet' type='text/css'>
+  <!--[if lte IE 8]>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+     <link rel="stylesheet" href="http://asset.geosprocket.com/leaflet/cluster/MarkerCluster.Default.ie.css" />
+  <![endif]-->
+  <style type="text/css">
+    body {
+      padding: 0;
+      margin: 0;
+    }
+    h2 {
+	    
+font-family: 'Bitter', serif;
+font-style: bold;
+
+    }
+    h3 {
+	    
+font-family: 'Bitter', serif; font-weight: 400;
+    }
+
+    html, body, #map {
+      height: 100%;
+    }
+    .marker-cluster-small {
+      background-color: rgba(91, 124, 232, 0.6);
+    }
+    .marker-cluster-small div {
+     background-color: rgba(17, 19, 190, 0.6);
+    }
+
+    .marker-cluster-medium {
+      background-color: rgba(241, 211, 87, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(240, 194, 12, 0.6);
+    }
+
+    .marker-cluster-large {
+      background-color: rgba(253, 156, 115, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(241, 128, 23, 0.6);
+    }
+    .marker-cluster {
+      background-clip: padding-box;
+      border-radius: 20px;
+    }
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+
+      text-align: center;
+      border-radius: 15x;
+      font: 1em  'Bitter', serif;
+
+     color: white;
+    }
+    .marker-cluster span {
+      line-height: 30px;
+    }
+
+  </style>
+
+  <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js"></script>
+<body>
+  <div id="map"></div>
+  <script>
+  // Base layer
+  var baseLayer =   L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution:' CartoDB attribution'
+        });
+  // MarkerCluster layer and options
+  var markers = L.markerClusterGroup({
+    showCoverageOnHover:false,
+    spiderfyOnMaxZoom:true, 
+    spiderLegPolylineOptions:{
+      weight:1, color:'#999', opacity:0.5
+    },
+    zoomToBoundsOnClick:true,
+    removeOutsideVisibleBounds:true
+  });
+
+  // CartoDB SQL API Call
+  $.getJSON("https://lauraneckstein.cartodb.com:443/api/v2/sql?format=GeoJSON&q=SELECT * FROM public.jewishnotices WHERE holiday LIKE 'Day of Atonement'", function(data) {
+    var geojson = L.geoJson(data, {
+      onEachFeature: function (feature, layer) {
+        // Add a popup or any other layer-related action
+        layer.bindPopup("<h2>" + "'" + feature.properties.title + "'" + "</h2><hr><h3>Newspaper: <em>" + feature.properties.publication_title  + "</em><br><br>" + "Location: " + feature.properties.place + "<br><br>" + "<a  href=" + feature.properties.url + "target=_blank>Click to see the article!</a>" + "</p>");
+      }
+    });
+    markers.addLayer(geojson);
+
+    // Build the map
+    var map = L.map('map', {maxZoom: 9}).fitBounds(markers.getBounds());
+    baseLayer.addTo(map);
+    markers.addTo(map);
+  });
+  </script>
+</body>
+</html>

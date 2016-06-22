@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mariano Rajoy vs Pedro Sanchez, el #caraacara</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+    <script id="cartocss_template">
+
+Map {
+-torque-frame-count:256;
+-torque-animation-duration:60;
+-torque-time-attribute:"date";
+-torque-aggregation-function:"CDB_Math_Mode(holiday)";
+-torque-resolution:32;
+-torque-data-aggregation:cumulative;
+}
+
+#jewishnotices{
+  comp-op: source-over;
+  marker-fill-opacity: 1;
+  marker-line-color: #FFF;
+  marker-line-width: 0;
+  marker-line-opacity: 1;
+  marker-type: ellipse;
+  marker-width: 6;
+  marker-fill: #FFFFFF;
+}
+#jewishnotices[frame-offset=1] {
+ marker-width:8;
+ marker-fill-opacity:0.5; 
+}
+#jewishnotices[frame-offset=2] {
+ marker-width:10;
+ marker-fill-opacity:0.25; 
+}
+#jewishnotices[frame-offset=3] {
+ marker-width:12;
+ marker-fill-opacity:0.16666666666666666; 
+}
+#jewishnotices[frame-offset=4] {
+ marker-width:14;
+ marker-fill-opacity:0.125; 
+}
+#jewishnotices[value="Jewish New Year"] {
+   marker-fill: #11002F;
+}
+#jewishnotices[value=Passover] {
+   marker-fill: #2E5387;
+}
+#jewishnotices[value="Day of Atonement"] {
+   marker-fill: #FFCC00;
+}
+    </script>
+  </head>
+  
+  <body>
+    
+    <div id="map"></div>
+    
+    <!-- Legend -->
+    <div class='cartodb-legend category'>	
+      <ul>
+      	<li>
+      		<div class="bullet" style="background: #0F3B82"></div>  Mariano Rajoy
+      	</li>
+      	<li>
+      		<div class="bullet" style="background: #F11810"></div>  Jewish New Year
+      	</li>
+      </ul>
+    </div>
+    
+    <!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+    <script>
+      function main() {
+        var map = new L.Map('map', {
+          center: [40, -91],
+          zoom:5
+        });
+        
+        var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
+          attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OSM</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+        }).addTo(map); // base map
+        cartodb.createLayer(map, {
+          type: "torque",
+          order: 1,
+          options: {
+            // sql query that transform torque_cat values to torque_category ones [this time is redundant but quite useful in other cases]
+        
+            table_name: "jewishnotices",
+            user_name: "lauraneckstein",
+            tile_style: $('#cartocss_template').html()
+            }
+        }).done(function(layer) {
+          map.addLayer(layer);
+        });   
+      }
+      // you could use $(window).load(main);
+      window.onload = main;
+    </script>
+  </body>
+</html>
