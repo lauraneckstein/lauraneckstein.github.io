@@ -2,6 +2,11 @@
 <html>
 	<!data from chronicling America>
 <head>
+	<meta charset="UTF-8">
+<meta name="description" content="Map of Jewish Holiday Announcements in the American Press before 1865">
+<meta name="keywords" content="newspapers, jewish, american jewish history, american history, 19thc, 19thc newspapers, newspaper, periodical, periodicals, jewish newspaper">
+<meta name="author" content="Laura Newman Eckstein">
+</head>
   <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css"/>
       <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -91,6 +96,7 @@ font-family: 'Bitter', serif; font-weight: 400;
 
 	<script src="js/leaflet.featuregroup.subgroup.js"></script>
     <script src="js/leaflet.markercluster.js"></script>
+    <script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
     <body>
 <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
@@ -114,8 +120,8 @@ font-family: 'Bitter', serif; font-weight: 400;
             </div>
 
             <div class="sidebar-pane" id="messages">
-                <h1 class="sidebar-header">Share!<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1><p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://lauraneckstein.com/jewishnoticesinnewspapers" data-text="A map of Jewish holiday notices in American newspapers pre-Civil War!" data-via="lauraneckstein" data-size="large" data-hashtags="newspapers,jewish,19thc">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script><br><br><iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flauraneckstein.com%2Fjewishnoticesinnewspapers&layout=button_count&mobile_iframe=true&width=87&height=20&appId" width="97" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe></p>
+                <h1 class="sidebar-header">Share!<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1><p><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://lauraneckstein.gigthub.io/jewishnewspapers" data-text="A map of Jewish holiday notices in American newspapers pre-Civil War!" data-via="lauraneckstein" data-size="large" data-hashtags="newspapers,jewish,19thc">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>&nbsp&nbsp<iframe src="https://www.facebook.com/plugins/share_button.php?href=http%3A%2F%2Flauraneckstein.github.io%2Fjewishnewspapers&layout=button_count&mobile_iframe=true&width=97&height=30&appId" width="97" height="30" style="border:none;overflow:hidden" scrolling="no" frameborder="2" allowTransparency="true"></iframe>&nbsp&nbsp<a data-pin-do="buttonPin" data-pin-tall="true" data-pin-round="true" data-pin-save="false" href="https://www.pinterest.com/pin/create/button/?url=lauraneckstein.github.io%2Fjewishnewspapers&media=http%3A%2F%2Flauraneckstein.com%2Fblog%2Fwp-content%2Fuploads%2F2016%2F06%2Fthumb.jpg&description=Save%20for%20later!"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_round_red_32.png" /></a></p>
             </div>
 
          </div>
@@ -123,8 +129,6 @@ font-family: 'Bitter', serif; font-weight: 400;
 
         <div id="map" class="sidebar-map"></div>
 
-
-<a href="https://github.com/lauraneckstein/jewishnewspapers" "target=_blank"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px; " src="http://aral.github.com/fork-me-on-github-retina-ribbons/left-turquoise@2x.png" alt="Fork me on GitHub"></a><a href="https://github.com/lauraneckstein/jewishnewspapers" "target=_blank"><img style="position: absolute; top: 0; left: 0; border: 0; width: 149px; height: 149px;" src="http://aral.github.com/fork-me-on-github-retina-ribbons/left-turquoise@2x.png" alt="Fork me on GitHub"></a>
 
 <script src="js/leaflet-sidebar.js"></script>
         
@@ -197,7 +201,7 @@ geojson2.addTo(markers2);
 geojson3.addTo(markers3);
 
     var map = L.map('map', {
-	     zoomControl: true,
+	     zoomControl: false,
 	     fullscreen: true,
 	    layers: [baseLayer, markers1],
 	    maxZoom: 9}).fitBounds(geojson1.getBounds());
@@ -215,7 +219,7 @@ geojson3.addTo(markers3);
 
 L.control.layers(overlays,null,{collapsed:false}).addTo(map);
 
- var sidebar = L.control.sidebar('sidebar', {position: 'right', collapsed:false}).addTo(map);
+ var sidebar = L.control.sidebar('sidebar', {position: 'left', collapsed:false}).addTo(map);
 
  });
  });
