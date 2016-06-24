@@ -17,10 +17,12 @@
 <link rel="stylesheet" href="css/leaflet-sidebar.css"/>
 
   <style type="text/css">
+   
     body {
       padding: 0;
       margin: 0;
     }
+    
 
  .leaflet-control-layers {
      
@@ -34,14 +36,24 @@
         border: rgba(0, 0, 0, 0.44);
             }
 
-   html, body, #map {
+   html, body,  #map {
       height: 100%;
     }
+ #titlepa {
+	text-align: center;
+	position: absolute !important;
+	left: 2px;
+	right: 40px;
+	color: white;
 
+}
   h1,  h2 {
 
 font-family: 'Bitter', serif;
 font-style: bold;
+text-align: center;
+
+
 
     }
     h3, p {
@@ -100,7 +112,8 @@ font-family: 'Bitter', serif; font-weight: 400;
     <script src="js/leaflet.markercluster.js"></script>
     <script async defer src="http://assets.pinterest.com/js/pinit.js"></script>
     <body>
-<div id="sidebar" class="sidebar collapsed">
+	    <h2 id="titlepa" class="leaflet-control">Map of Jewish Holiday Announcements in U.S. Newspapers(pre-1865)</h2>
+	    <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs" >
             <ul role="tablist">
@@ -128,10 +141,12 @@ font-family: 'Bitter', serif; font-weight: 400;
 
          </div>
     </div>
+    </div>
+
 
         <div id="map" class="sidebar-map"></div>
-
-
+    </div>
+   
 <script src="js/leaflet-sidebar.js"></script>
         
   <script>
@@ -221,7 +236,7 @@ geojson3.addTo(markers3);
 
 L.control.layers(overlays,null,{collapsed:false}).addTo(map);
 
- var sidebar = L.control.sidebar('sidebar', {position: 'left', collapsed:false}).addTo(map);
+ var sidebar = L.control.sidebar('sidebar', {position: 'left', }).addTo(map);
 
  });
  });
