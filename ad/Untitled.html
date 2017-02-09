@@ -1,0 +1,78 @@
+navbarPage("App Title",
+  tabPanel("Plot"),
+  tabPanel("Summary"),
+  tabPanel("Table")
+)
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">App Title</span>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a href="#tab-8611-1" data-toggle="tab" data-value="Plot">Plot</a>
+      </li>
+      <li>
+        <a href="#tab-8611-2" data-toggle="tab" data-value="Summary">Summary</a>
+      </li>
+      <li>
+        <a href="#tab-8611-3" data-toggle="tab" data-value="Table">Table</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="tab-content">
+    <div class="tab-pane active" data-value="Plot" id="tab-8611-1"></div>
+    <div class="tab-pane" data-value="Summary" id="tab-8611-2"></div>
+    <div class="tab-pane" data-value="Table" id="tab-8611-3"></div>
+  </div>
+</div>
+
+
+navbarPage("App Title",
+  tabPanel("Plot"),
+  navbarMenu("More",
+    tabPanel("Summary"),
+    "----",
+    "Section header",
+    tabPanel("Table")
+  )
+)
+
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">App Title</span>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active">
+        <a href="#tab-6323-1" data-toggle="tab" data-value="Plot">Plot</a>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          More
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li>
+            <a href="#tab-2204-1" data-toggle="tab" data-value="Summary">Summary</a>
+          </li>
+          <li class="divider"></li>
+          <li class="dropdown-header">Section header</li>
+          <li>
+            <a href="#tab-2204-2" data-toggle="tab" data-value="Table">Table</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="tab-content">
+    <div class="tab-pane active" data-value="Plot" id="tab-6323-1"></div>
+    <div class="tab-pane" data-value="Summary" id="tab-2204-1"></div>
+    <div class="tab-pane" data-value="Table" id="tab-2204-2"></div>
+  </div>
+</div>
