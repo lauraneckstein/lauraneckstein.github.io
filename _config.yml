@@ -3,6 +3,6 @@ google_analytics:
 description: <a href="https://twitter.com/lauraneckstein" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @lauraneckstein</a>
 show_downloads: false
 theme: jekyll-theme-minimal
-twitter: @lauraneckstein
+
 gems:
   - jekyll-mentions
