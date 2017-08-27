@@ -1,6 +1,5 @@
 ### Welcome to Laura Newman Eckstein's Project Portfolio.
 Below, you will find links to different projects I am particularly proud of, and I feel represent my best work. 
-<a href="https://twitter.com/lauraneckstein" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @lauraneckstein</a>
 
 ### Projects
 - Religious Life in America
