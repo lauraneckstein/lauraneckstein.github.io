@@ -1,9 +1,8 @@
 ### Welcome to Laura Newman Eckstein's Project Portfolio.
 Below, you will find links to different projects I am particularly proud of, and I feel represent my best work. 
 <a href="https://twitter.com/lauraneckstein" class="twitter-follow-button" data-show-count="false" data-size="large">Follow @lauraneckstein</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-# 
 
+### Projects
 - Religious Life in America
   - Senior Thesis,["On the River on the Road: Lower Mississippi Peddlers and their Judaism, 1820-1865"](http://lauraneckstein.com/blog/seniorthesis/)
   - Jewish Holiday Notices in Newspapers
@@ -28,4 +27,7 @@ Below, you will find links to different projects I am particularly proud of, and
 You are welcome to contact me at anytime. <a href="https://twitter.com/intent/tweet?screen_name=lauraneckstein" class="twitter-mention-button" data-size="large" data-related="lauraneckstein">Tweet to @lauraneckstein</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 If you are interested in keeping up to date with my mapping, as well as other projects I work on, go to [my website.](www.lauraneckstein.com)
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
  
