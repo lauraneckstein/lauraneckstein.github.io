@@ -21,7 +21,7 @@ Below, you will find links to different projects I am particularly proud of, and
 - Other
   - [Choropleth Map of Rosenwald Schools in the Southern United States](https://lauraneckstein.github.io/rosenwaldschools/)
   - [A Response to the Charleston Massacre: The Confederate Streets of South Carolina](http://lauraneckstein.com/blog/theconfederatestreetsofsouthcarolina/)
-  - [Got Pesticides?
+  - [Got Pesticides?](http://lauraneckstein.com/blog/pesticides/)
   
 ### Contact
 You are welcome to contact me at anytime. Either [tweet at me](http://twitter.com/lauraneckstein/), or email me at lauraeck@upenn.edu. 
