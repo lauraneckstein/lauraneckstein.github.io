@@ -24,6 +24,6 @@ Below, you will find links to different projects I am particularly proud of, and
   - [Got Pesticides?](http://lauraneckstein.com/blog/pesticides/)
   
 ### Contact
-You are welcome to contact me at anytime. Either [tweet at me](http://twitter.com/lauraneckstein/), or email me at lauraeck@upenn.edu. 
+You are welcome to contact me at anytime. Email me at lauraeck@upenn.edu. 
 
  
