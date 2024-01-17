@@ -1,6 +1,6 @@
 ### Welcome to Laura Newman Eckstein's Project Portfolio.
 Below, you will find links to different projects I am particularly proud of, and I feel represent my best work. 
-You can find my bio [here](https://lauraneckstein.github.io/about/).
+You can find my bio [here](https://lauraneckstein.github.io/about.html).
 ### Projects
 
 - Religious Life in America
